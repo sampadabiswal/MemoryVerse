@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MemoryVerse | Home</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+
+margin:0;
+
+font-family:'Poppins',sans-serif;
+
+background:#050510;
+
+color:white;
+
+overflow-x:hidden;
+
+}
+
+/* Navigation */
+
+header{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+padding:20px 60px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+background:rgba(0,0,0,.45);
+
+backdrop-filter:blur(10px);
+
+z-index:999;
+
+}
+
+.logo{
+
+font-size:34px;
+
+font-weight:800;
+
+color:#E50914;
+
+letter-spacing:3px;
+
+}
+
+nav{
+
+display:flex;
+
+gap:35px;
+
+margin-right:80px;
+
+}
+
+nav a{
+
+color:white;
+
+text-decoration:none;
+
+font-weight:500;
+
+transition:.3s;
+
+}
+
+nav a:hover{
+
+color:#00d4ff;
+
+}
+
+/* Hero */
+
+.hero{
+
+height:100vh;
+
+display:flex;
+
+align-items:center;
+
+padding:90px;
+
+background:
+
+linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.9)),
+
+url("assets/images/photo1.jpg");
+
+background-size:cover;
+
+background-position:center;
+
+}
+
+.hero-content{
+
+max-width:650px;
+
+}
+
+.hero small{
+
+font-size:18px;
+
+letter-spacing:3px;
+
+color:#ddd;
+
+}
+
+.hero h1{
+
+font-size:70px;
+
+margin:15px 0;
+
+line-height:1.1;
+
+}
+
+.hero p{
+
+font-size:21px;
+
+line-height:1.8;
+
+margin-bottom:40px;
+
+color:#eee;
+
+}
+
+.watch-btn{
+
+padding:18px 40px;
+
+font-size:18px;
+
+font-weight:700;
+
+border:none;
+
+border-radius:40px;
+
+cursor:pointer;
+
+background:white;
+
+color:#111;
+
+transition:.3s;
+
+}
+
+.watch-btn:hover{
+
+transform:scale(1.08);
+
+box-shadow:0 0 30px white;
+
+}
+
+/* Sections */
+
+.section{
+
+padding:60px;
+
+}
+
+.section h2{
+
+font-size:34px;
+
+margin-bottom:25px;
+
+}
+
+/* Cards */
+
+.cards{
+
+display:flex;
+
+gap:25px;
+
+overflow-x:auto;
+
+padding-bottom:20px;
+
+}
+
+.cards::-webkit-scrollbar{
+
+height:8px;
+
+}
+
+.cards::-webkit-scrollbar-thumb{
+
+background:#8c52ff;
+
+border-radius:30px;
+
+}
+
+.card{
+
+min-width:280px;
+
+background:rgba(255,255,255,.08);
+
+border-radius:18px;
+
+overflow:hidden;
+
+backdrop-filter:blur(10px);
+
+transition:.35s;
+
+text-decoration:none;
+
+color:white;
+
+}
+
+.card:hover{
+
+transform:translateY(-10px);
+
+box-shadow:0 0 30px cyan;
+
+}
+
+.card img{
+
+width:100%;
+
+height:360px;
+
+object-fit:cover;
+
+}
+
+.card h3{
+
+padding:15px 15px 5px;
+
+margin:0;
+
+}
+
+.card p{
+
+padding:0 15px 20px;
+
+margin:0;
+
+font-size:14px;
+
+color:#ddd;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+
+🌌 MemoryVerse
+
+</div>
+
+<nav>
+
+<a href="#">Home</a>
+
+<a href="#continue">Continue Watching</a>
+
+<a href="#journey">Our Journey</a>
+
+<a href="finale.html">Finale</a>
+
+</nav>
+
+</header>
+
+<section class="hero">
+
+<div class="hero-content">
+
+<small>A MEMORYVERSE ORIGINAL</small>
+
+<h1>
+
+The Story of Us
+
+</h1>
+
+<p>
+
+Welcome to your very own universe of memories. Each chapter is a snapshot of our journey, a collection of smiles, and a celebration of you. Press play to begin the adventure.
+
+</p>
+
+<a href="chapter1.html">
+
+<button class="watch-btn">
+
+▶ Start Watching
+
+</button>
+
+</a>
+
+</div>
+
+</section>
+
+<section class="section" id="continue">
+
+<h2>
+
+📺 Continue Watching
+
+</h2>
+
+<div class="cards">
+
+<a class="card" href="chapter1.html">
+
+<img src="assets/images/photo1.jpg" alt="Chapter 1 Cover">
+
+<h3>Chapter 1</h3>
+
+<p>🎂 Happy Birthday</p>
+
+</a>
+
+<a class="card" href="chapter2.html">
+
+<img src="assets/images/photo6.jpg" alt="Chapter 2 Cover">
+
+<h3>Chapter 2</h3>
+
+<p>🌊 Beach Memories</p>
+
+</a>
+
+<a class="card" href="chapter3.html">
+
+<img src="assets/images/photo15.jpg" alt="Chapter 3 Cover">
+
+<h3>Chapter 3</h3>
+
+<p>🍱 Lunch Dates</p>
+
+</a>
+
+<a class="card" href="chapter4.html">
+
+<img src="assets/images/photo10.jpg" alt="Chapter 4 Cover">
+
+<h3>Chapter 4</h3>
+
+<p>🎬 Movie Date</p>
+
+</a>
+
+</div>
+
+</section>
+<!-- =========================
+     Our Journey
+========================= -->
+
+<section class="section" id="journey">
+
+    <h2>
+
+        ❤️ Our Journey
+
+    </h2>
+
+    <div class="cards">
+
+        <a class="card" href="chapter5.html">
+
+            <img src="assets/images/photo5.jpg" alt="Chapter 5 Cover">
+
+            <h3>
+
+                Chapter 5
+
+            </h3>
+
+            <p>
+
+                🔀 Random Moments
+
+            </p>
+
+        </a>
+
+        <a class="card" href="chapter6.html">
+
+            <img src="assets/images/photo8.jpg" alt="Chapter 6 Cover">
+
+            <h3>
+
+                Chapter 6
+
+            </h3>
+
+            <p>
+
+                🥰 Your Cuteness
+
+            </p>
+
+        </a>
+
+        <a class="card" href="chapter7.html">
+
+            <img src="assets/images/photo3.jpg" alt="Chapter 7 Cover">
+
+            <h3>
+
+                Chapter 7
+
+            </h3>
+
+            <p>
+
+                🎂 Birthday Boi
+
+            </p>
+
+        </a>
+
+        <a class="card" href="finale.html">
+
+            <img src="assets/images/photo11.jpg" alt="Finale Cover">
+
+            <h3>
+
+                🎆 Grand Finale
+
+            </h3>
+
+            <p>
+
+                The story continues...
+
+            </p>
+
+        </a>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     Quote Section
+========================= -->
+
+<section
+style="
+padding:100px 60px;
+text-align:center;
+">
+
+<h1
+style="
+font-size:50px;
+margin-bottom:30px;
+">
+
+✨
+
+</h1>
+
+<p
+style="
+font-size:28px;
+max-width:900px;
+margin:auto;
+line-height:1.8;
+color:#dddddd;
+">
+
+"Some people arrive and make such a beautiful impact on your life, you can barely remember what life was like without them.
+
+Thank you for every smile,
+
+every laugh,
+
+every adventure,
+
+and for being the incredible person you are.
+
+Happy Birthday ❤️"
+
+</p>
+
+</section>
+
+<!-- =========================
+     Footer
+========================= -->
+
+<footer
+style="
+padding:50px;
+text-align:center;
+background:#050510;
+color:#999;
+">
+
+<h2>
+
+🌌 MemoryVerse
+
+</h2>
+
+<p>
+
+Created with ❤️ especially for you.
+
+</p>
+
+<p>
+
+Every chapter holds a memory.
+
+Every memory lasts forever.
+
+</p>
+
+</footer>
+
+<!-- =========================
+     Background Music
+========================= -->
+
+<audio id="bgMusic" autoplay loop>
+
+    <source
+    src="assets/music/background.mp3"
+    type="audio/mpeg">
+
+</audio>
+
+<!-- =========================
+     JavaScript
+========================= -->
+
+<script>
+
+const music = document.getElementById("bgMusic");
+
+music.volume = 0.4;
+
+music.play().catch(()=>{
+
+console.log("Autoplay blocked until user interaction.");
+
+});
+
+// Card Animation
+
+const cards = document.querySelectorAll(".card");
+
+const observer = new IntersectionObserver(entries=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.animate([
+
+{
+
+opacity:0,
+
+transform:"translateY(50px)"
+
+},
+
+{
+
+opacity:1,
+
+transform:"translateY(0px)"
+
+}
+
+],{
+
+duration:800,
+
+fill:"forwards"
+
+});
+
+}
+
+});
+
+});
+
+cards.forEach(card=>{
+
+observer.observe(card);
+
+});
+
+// Smooth Scroll
+
+document.querySelectorAll('nav a').forEach(link=>{
+
+link.onclick=function(e){
+
+const href=this.getAttribute("href");
+
+if(href.startsWith("#")){
+
+e.preventDefault();
+
+document.querySelector(href).scrollIntoView({
+
+behavior:"smooth"
+
+});
+
+}
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>

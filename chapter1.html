@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MemoryVerse | Chapter 1</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* =====================================================
+   GENERAL & RESET
+=====================================================*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #030712;
+    color: white;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* =====================================================
+   GALAXY BACKGROUND & EFFECTS
+=====================================================*/
+#galaxy {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: -5;
+    background: radial-gradient(circle at top, #213A5B 0%, #111827 35%, #030712 100%);
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .30);
+    z-index: -4;
+}
+
+.nebula {
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: .18;
+    animation: nebulaMove 18s ease-in-out infinite alternate;
+    z-index: -3;
+}
+
+.nebula.one {
+    background: #5B7CFF;
+    top: -220px;
+    left: -150px;
+}
+
+.nebula.two {
+    background: #FFD54F;
+    bottom: -250px;
+    right: -150px;
+}
+
+@keyframes nebulaMove {
+    from { transform: scale(1); }
+    to { transform: scale(1.25); }
+}
+
+/* =====================================================
+   INTRO SCREEN
+=====================================================*/
+#introScreen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    z-index: 999;
+    animation: introFade 4s forwards 1s;
+}
+
+@keyframes introFade {
+    0%, 75% { opacity: 1; visibility: visible; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+.intro-center { text-align: center; }
+.intro-small { font-size: 20px; letter-spacing: 8px; color: #FFD54F; margin-bottom: 20px; }
+.intro-big { font-size: 90px; font-weight: 800; margin-bottom: 15px; text-shadow: 0 0 20px gold, 0 0 50px orange; }
+.intro-title { font-size: 42px; margin-bottom: 25px; }
+.intro-text { font-size: 22px; color: #ddd; }
+
+/* =====================================================
+   MAIN CONTENT
+=====================================================*/
+#chapterContent {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 120px 20px 60px;
+    text-align: center;
+    opacity: 0;
+    animation: showPage 1s forwards 4.5s;
+}
+
+@keyframes showPage {
+    to { opacity: 1; }
+}
+
+.chapter-number { font-size: 18px; letter-spacing: 6px; color: #FFD54F; }
+.chapter-heading { font-size: 70px; margin: 20px 0 10px; text-shadow: 0 0 20px gold, 0 0 50px rgba(255, 215, 0, .5); }
+.chapter-sub { font-size: 22px; color: #ddd; margin-bottom: 40px; }
+
+/* =====================================================
+   CINEMA FRAME & SLIDESHOW
+=====================================================*/
+.cinema-frame {
+    width: 90%;
+    max-width: 1100px;
+    height: 650px;
+    margin: auto;
+    background: #000;
+    padding: 18px;
+    border-radius: 22px;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, .6), 0 0 35px rgba(255, 255, 255, .08);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cinema-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, .06), transparent 25%, transparent 70%, rgba(0, 0, 0, .25));
+    z-index: 2;
+    pointer-events: none;
+    border-radius: 22px;
+}
+
+.cinema-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+    transition: opacity 0.5s ease-in-out;
+    animation: kenburns 12s ease-in-out infinite alternate;
+}
+
+@keyframes kenburns {
+    0% { transform: scale(1) translate(0, 0); }
+    100% { transform: scale(1.1) translate(-5px, 5px); }
+}
+
+/* =====================================================
+   CAPTION & STORY
+=====================================================*/
+#captionBox { margin-top: 35px; }
+#caption { font-size: 28px; font-style: italic; color: #FFD54F; transition: opacity 0.5s; }
+.story-box { width: 900px; max-width: 92%; margin: 45px auto; padding: 35px; background: rgba(255, 255, 255, .08); backdrop-filter: blur(20px); border-radius: 20px; line-height: 2; font-size: 21px; color: #eee; box-shadow: 0 0 35px rgba(255, 255, 255, .08); }
+
+/* =====================================================
+   NAVIGATION BUTTONS
+=====================================================*/
+.nav-buttons { display: flex; justify-content: center; gap: 25px; margin-top: 45px; flex-wrap: wrap; }
+
+.nav-buttons button {
+    padding: 18px 42px;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .35s;
+    position: relative;
+    overflow: hidden;
+}
+
+.primary { background: #FFD54F; color: #111; }
+.secondary { background: white; color: #111; }
+
+.nav-buttons button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px gold;
+}
+.secondary:hover { box-shadow: 0 0 25px white; }
+
+.ripple { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.7); transform: scale(0); animation: ripple 0.6s linear; pointer-events: none; }
+@keyframes ripple { to { transform: scale(4); opacity: 0; } }
+
+.progress { margin: 45px 0 0; text-align: center; font-size: 18px; letter-spacing: 2px; color: #bbb; }
+
+/* =====================================================
+   RESPONSIVE
+=====================================================*/
+@media (max-width: 992px) {
+    .chapter-heading { font-size: 52px; }
+    .cinema-frame { height: 500px; }
+    .story-box { font-size: 18px; }
+}
+
+@media (max-width: 768px) {
+    #chapterContent { padding-top: 80px; }
+    .chapter-heading { font-size: 42px; }
+    .chapter-sub { font-size: 18px; }
+    .cinema-frame { height: 350px; padding: 10px; }
+    #caption { font-size: 20px; }
+    .story-box { padding: 25px; font-size: 16px; }
+    .nav-buttons { gap: 15px; }
+}
+
+@media (max-width: 480px) {
+    .chapter-heading { font-size: 34px; }
+    .cinema-frame { height: 250px; }
+    .nav-buttons { flex-direction: column; align-items: center; width: 90%; }
+    .nav-buttons a { width: 100%; max-width: 300px; }
+    .nav-buttons button { width: 100%; }
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- ==========================
+     Galaxy Background
+========================== -->
+
+<div id="galaxy"></div>
+
+<div class="nebula one"></div>
+
+<div class="nebula two"></div>
+
+<div class="overlay"></div>
+
+<div id="particles"></div>
+
+<!-- ==========================
+     Opening Screen
+========================== -->
+
+<section id="introScreen">
+
+<div class="intro-center">
+
+<h3 class="intro-small">
+
+MEMORYVERSE PRESENTS
+
+</h3>
+
+<h1 class="intro-big">
+
+CHAPTER I
+
+</h1>
+
+<h2 class="intro-title">
+
+🎂 Happy Birthday
+
+</h2>
+
+<p class="intro-text">
+
+Some stories begin with a single heartbeat...
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ==========================
+     Main Chapter
+========================== -->
+
+<section id="chapterContent">
+
+<div class="chapter-number">
+
+CHAPTER I
+
+</div>
+
+<h1 class="chapter-heading">
+
+🎂 Happy Birthday
+
+</h1>
+
+<p class="chapter-sub">
+
+A celebration of the day your story began.
+
+</p>
+
+<!-- Slideshow -->
+
+<div class="cinema-frame">
+
+<img
+id="slide"
+src="assets/images/photo1.jpg"
+alt="Birthday Memory">
+
+</div>
+
+<!-- Caption -->
+
+<div id="captionBox">
+
+<p id="caption">
+
+Some stories begin with a single heartbeat.
+
+</p>
+
+</div>
+
+<!-- Description -->
+
+<div class="story-box">
+
+<p>
+
+The world became a much better place on this day.
+
+<br><br>
+
+Celebrating the exact moment your story began and how grateful I am that it crossed paths with mine.
+
+<br><br>
+
+<b>
+
+Happyyy Birthdayyyy ❤️
+
+</b>
+
+</p>
+
+</div>
+
+<!-- Navigation -->
+
+<div class="nav-buttons">
+
+<a href="home.html">
+
+<button class="secondary">
+
+⬅ Previous
+
+</button>
+
+</a>
+<a href="home.html">
+
+<button class="secondary">
+
+🏠 Home
+
+</button>
+
+</a>
+
+<a href="chapter2.html">
+
+<button class="primary">
+
+Next ➜
+
+</button>
+
+</a>
+
+</div>
+
+<div class="progress">
+
+Chapter 1 / 7
+
+</div>
+
+</section>
+
+<!-- ==========================
+     Floating Decorations
+========================== -->
+
+<div id="hearts"></div>
+
+<div id="confetti"></div>
+
+<div id="fireworks"></div>
+
+<!-- ==========================
+     Background Music
+========================== -->
+
+<audio
+id="music"
+loop autoplay>
+
+<source
+src="assets/music/background.mp3"
+type="audio/mpeg">
+
+</audio>
+
+<!-- ==========================
+     JavaScript
+========================== -->
+
+<script>
+
+// Images
+
+const images=[
+
+"assets/images/photo1.jpg",
+
+"assets/images/photo16.jpg",
+
+"assets/images/photo2.jpg"
+
+];
+
+// Captions
+
+const captions=[
+
+"Some stories begin with a single heartbeat.",
+
+"This day gave the world someone truly special.",
+
+"And years later, it gave me my favorite person."
+
+];
+
+</script>
+
+<script>
+/* ==========================================
+      PHOTO SLIDESHOW
+========================================== */
+const slide = document.getElementById("slide");
+const caption = document.getElementById("caption");
+let current = 0;
+
+function changeSlide() {
+    current = (current + 1) % images.length;
+
+    slide.style.opacity = 0;
+    caption.style.opacity = 0;
+
+    setTimeout(() => {
+        slide.src = images[current];
+        caption.innerHTML = captions[current];
+        slide.style.opacity = 1;
+        caption.style.opacity = 1;
+    }, 500);
+}
+
+setInterval(changeSlide, 5000);
+
+/* ==========================================
+      MUSIC
+========================================== */
+const music = document.getElementById("music");
+if (music) {
+    music.volume = 0.35;
+    music.play().catch(() => {
+        document.body.addEventListener("click", () => {
+            music.play();
+        }, { once: true });
+    });
+}
+
+/* ==========================================
+      BUTTON RIPPLE
+========================================== */
+document.querySelectorAll(".nav-buttons button").forEach(button => {
+    button.addEventListener("click", function (e) {
+        const rect = e.target.getBoundingClientRect();
+        const circle = document.createElement("span");
+        const diameter = Math.max(rect.width, rect.height);
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${e.clientX - rect.left - diameter / 2}px`;
+        circle.style.top = `${e.clientY - rect.top - diameter / 2}px`;
+        circle.classList.add("ripple");
+        this.appendChild(circle);
+        setTimeout(() => circle.remove(), 600);
+    });
+});
+</script>
+
+</body>
+
+</html>

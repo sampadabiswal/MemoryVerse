@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MemoryVerse | Grand Finale</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    height:100vh;
+    overflow:hidden;
+    background:#000;
+    color:white;
+}
+
+a { text-decoration: none; }
+
+/* =====================================================
+   SCENE MANAGEMENT & BACKGROUND
+=====================================================*/
+.scene {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1.5s ease-in-out, visibility 1.5s;
+    background: transparent;
+}
+.scene.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+#background-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    background: linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.85)), url("assets/images/photo11.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.vignette-overlay {
+    position: fixed;
+    inset: 0;
+    box-shadow: inset 0 0 200px 50px rgba(0,0,0,0.7);
+    z-index: -5;
+    pointer-events: none;
+}
+
+/* =====================================================
+   OPENING SEQUENCE
+=====================================================*/
+#opening-sequence {
+    background: #000;
+    z-index: 1000;
+}
+.opening-text {
+    font-size: 28px;
+    color: #ccc;
+    opacity: 0;
+    animation: fadeInOut 4s ease-in-out forwards;
+    position: absolute;
+}
+.opening-text.line-1 { animation-delay: 1s; }
+.opening-text.line-2 { animation-delay: 5s; }
+.opening-text.line-3 { animation-delay: 9s; }
+.opening-text.line-4 { font-size: 36px; color: #FFD700; animation-delay: 13s; }
+
+.opening-title {
+    font-size: 48px;
+    letter-spacing: 10px;
+    color: #FFD700;
+    border-top: 2px solid #FFD700;
+    border-bottom: 2px solid #FFD700;
+    padding: 15px 0;
+    opacity: 0;
+    animation: fadeInOut 5s ease-in-out forwards;
+    animation-delay: 2s;
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0; }
+    20%, 80% { opacity: 1; }
+}
+
+/* =====================================================
+   MAIN CONTENT & LETTER
+=====================================================*/
+#main-content { z-index: 10; }
+.content {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+    opacity: 0; /* Controlled by JS */
+}
+
+.logo { font-size: 32px; font-weight: 800; color: #FFD700; margin-bottom: 20px; }
+h1 { font-size: 70px; margin-bottom: 20px; text-shadow: 0 0 20px gold, 0 0 40px orange; }
+
+#letter-container {
+    margin: 40px auto;
+    perspective: 1500px;
+}
+
+#letter {
+    width: 90%;
+    max-width: 700px;
+    margin: auto;
+    padding: 50px;
+    background: #fdfbf5;
+    color: #33281e;
+    font-family: 'Caveat', cursive;
+    font-size: 30px;
+    line-height: 2;
+    border-radius: 5px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transform-style: preserve-3d;
+    transform: rotateX(90deg);
+    transition: transform 2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+#letter.unfold { transform: rotateX(0deg); }
+#letter.fold { transform: rotateX(90deg); }
+
+.letter-line {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.buttons { margin-top: 50px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+button {
+    padding: 18px 42px;
+    border: none;
+    border-radius: 40px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+}
+button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 0 25px var(--glow-color, white);
+}
+.replay { background: white; color: #111; --glow-color: white; }
+.end { background: #FFD700; color: black; --glow-color: gold; }
+
+/* =====================================================
+   RECAP MONTAGE
+=====================================================*/
+#recap-montage { z-index: 20; background: #000; }
+.recap-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+}
+.recap-slide.active {
+    opacity: 1;
+    visibility: visible;
+    animation: slideSequence 5s ease-in-out forwards;
+}
+
+@keyframes slideSequence {
+    0%, 100% { opacity: 0; }
+    15%, 85% { opacity: 1; }
+}
+
+.cinema-frame {
+    width: 90%;
+    max-width: 1100px;
+    height: 650px;
+    padding: 18px;
+    background: #000;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.cinema-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+    animation: kenburns 6s ease-in-out forwards;
+}
+
+@keyframes kenburns {
+    from { transform: scale(1); }
+    to { transform: scale(1.08); }
+}
+
+.recap-caption {
+    margin-top: 30px;
+    font-size: 28px;
+    font-style: italic;
+    color: #FFD700;
+    opacity: 0;
+    animation: captionFade 4s ease-in-out forwards 1s;
+}
+
+@keyframes captionFade {
+    0%, 100% { opacity: 0; }
+    25%, 75% { opacity: 1; }
+}
+
+/* =====================================================
+   TIMELINE
+=====================================================*/
+#timeline { z-index: 30; background: #000; }
+.timeline-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    font-size: 24px;
+    color: #ccc;
+}
+.timeline-item {
+    opacity: 0;
+    animation: timelineFadeUp 1.5s forwards;
+    border-left: 2px solid #FFD700;
+    padding-left: 20px;
+}
+.timeline-item span {
+    display: block;
+    font-size: 18px;
+    color: #888;
+}
+
+@keyframes timelineFadeUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* =====================================================
+   MEMORY WALL
+=====================================================*/
+#memory-wall-scene { z-index: 35; background: radial-gradient(circle, #2b1055, #090314 70%); }
+.memory-wall-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    animation: fadeInContent 2s forwards;
+}
+@keyframes fadeInContent { to { opacity: 1; } }
+
+.memory-wall-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    width: 95%;
+    max-width: 1400px;
+    margin-bottom: 40px;
+}
+.polaroid {
+    background: white;
+    padding: 10px 10px 20px 10px;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    position: relative;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, z-index 0.4s;
+    animation: float 8s ease-in-out infinite alternate;
+}
+.polaroid:hover {
+    transform: scale(1.15) rotate(0deg) !important;
+    box-shadow: 0 0 40px gold;
+    z-index: 100;
+}
+.polaroid img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+}
+.polaroid::before { /* Tape effect */
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    height: 20px;
+    background: rgba(255, 255, 180, 0.4);
+    backdrop-filter: blur(2px);
+    border-left: 1px solid rgba(255,255,255,0.2);
+    border-right: 1px solid rgba(255,255,255,0.2);
+}
+@keyframes float {
+    from { transform: translateY(-5px) rotate(var(--r, 0deg)); }
+    to { transform: translateY(5px) rotate(var(--r, 0deg)); }
+}
+
+.memory-wall-text {
+    font-size: 24px;
+    color: #ddd;
+    line-height: 2;
+    border-top: 1px solid #FFD700;
+    border-bottom: 1px solid #FFD700;
+    padding: 20px 0;
+    max-width: 800px;
+}
+.memory-wall-text b { color: #FFD700; }
+
+/* =====================================================
+   ENDING QUOTE
+=====================================================*/
+#ending-quote-scene { z-index: 40; background: #000; }
+.ending-quote-text {
+    font-size: 32px;
+    color: #eee;
+    max-width: 900px;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeInOut 4s ease-in-out forwards;
+    position: absolute;
+}
+.ending-quote-text.line-1 { animation-delay: 1s; }
+.ending-quote-text.line-2 { animation-delay: 5s; }
+.ending-quote-text.line-3 { color: #FFD700; animation-delay: 9s; }
+
+/* =====================================================
+   GRAND FINALE & CREDITS
+=====================================================*/
+#grand-finale-scene { z-index: 50; background: #000; }
+.grand-finale-text {
+    font-size: 60px;
+    letter-spacing: 15px;
+    color: #FFD700;
+    text-shadow: 0 0 25px gold;
+    opacity: 0;
+    animation: fadeInText 2s forwards;
+    margin-bottom: 50px;
+}
+.grand-finale-text:nth-child(1) { animation-delay: 1s; }
+.grand-finale-text:nth-child(2) { animation-delay: 2s; }
+.grand-finale-text:nth-child(3) { animation-delay: 3s; }
+.grand-finale-text.birthday { animation-delay: 5s; font-size: 48px; }
+
+@keyframes fadeInText { to { opacity: 1; } }
+
+#credits-scene {
+    z-index: 60;
+    background: #000;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    line-height: 1.8;
+}
+
+.credit-item { margin-bottom: 50px; }
+.credit-item h3 { font-size: 18px; color: #aaa; margin-bottom: 5px; letter-spacing: 2px; }
+.credit-item p { font-size: 22px; color: #eee; }
+.credit-item.rating { font-size: 32px; color: #FFD700; margin: 20px 0; }
+.credit-item.thanks { font-size: 24px; color: #ccc; }
+.credit-item.birthday { font-size: 28px; color: #FFD700; font-weight: bold; }
+
+.credit-item {
+    opacity: 0;
+    animation: fadeInText 4s forwards;
+}
+
+.restart-button-container {
+    margin-top: 60px;
+    opacity: 0;
+    animation: fadeInText 4s forwards;
+}
+
+/* =====================================================
+   LAST SCENE
+=====================================================*/
+#last-scene { z-index: 70; background: #000; }
+.last-scene-text {
+    font-size: 28px;
+    color: #ccc;
+    opacity: 0;
+    animation: fadeInOut 15s ease-in-out forwards;
+    position: absolute;
+}
+.last-scene-text.line-1 { animation-delay: 5s; }
+.last-scene-text.line-2 { color: #FFD700; animation-delay: 7s; }
+.last-scene-text.line-3 { animation-delay: 10s; }
+.last-scene-text.line-4 { font-size: 22px; color: #888; animation-delay: 17s; }
+
+#final-credits-scene {
+    z-index: 80;
+}
+
+/* =====================================================
+   EFFECTS & PARTICLES
+=====================================================*/
+.particle-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -8;
+    pointer-events: none;
+}
+
+footer{
+    position:absolute;
+    bottom:25px;
+    width:100%;
+    text-align:center;
+    color:#bbbbbb;
+    font-size:15px;
+    z-index: 5;
+}
+
+/* =====================================================
+   RESPONSIVE DESIGN
+=====================================================*/
+@media (max-width: 768px) {
+    h1 { font-size: 50px; }
+    .logo { font-size: 28px; }
+    #letter { font-size: 22px; padding: 30px; }
+    .cinema-frame { height: 400px; }
+    .recap-caption { font-size: 22px; }
+    .timeline-container { font-size: 20px; }
+    .ending-quote-text { font-size: 24px; }
+    .grand-finale-text { font-size: 40px; }
+    .last-scene-text { font-size: 22px; }
+}
+@media (max-width: 1200px) {
+    .memory-wall-grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 900px) {
+    .memory-wall-grid { grid-template-columns: repeat(3, 1fr); }
+    .memory-wall-text { font-size: 20px; }
+}
+
+@media (max-width: 480px) {
+    h1 { font-size: 36px; }
+    #letter { font-size: 18px; padding: 20px; }
+    .cinema-frame { height: 280px; padding: 10px; }
+    .recap-caption { font-size: 18px; }
+    .buttons { gap: 15px; }
+    button { padding: 15px 35px; font-size: 16px; }
+    .memory-wall-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .polaroid { padding: 5px 5px 10px 5px; }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- Background Layers -->
+<div id="background-canvas"></div>
+<canvas id="particle-canvas" class="particle-canvas"></canvas>
+<div class="vignette-overlay"></div>
+
+<!-- Scene 1: Opening Sequence -->
+<section id="opening-sequence" class="scene active">
+    <h2 class="opening-title">MEMORYVERSE</h2>
+</section>
+
+<!-- Scene 2: Main Content with Letter -->
+<section id="main-content" class="scene">
+    <div class="content">
+        <div class="logo">🌌 MEMORYVERSE</div>
+        <h1>🎆 Happy Birthday 🎂</h1>
+        
+        <div id="letter-container">
+            <div id="letter">
+                <p class="letter-line">Years from now, these moments may become old photographs,</p>
+                <p class="letter-line">but they'll always remain my favorite memories.</p>
+                <p class="letter-line">Thank you for making life a little more beautiful.</p>
+                <p class="letter-line">This wasn't made to impress you.</p>
+                <p class="letter-line">It was made to remind you how special you are.</p>
+                <p class="letter-line">Happy Birthday ❤️</p>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <a href="home.html"><button class="replay">▶ Replay Our Story</button></a>
+            <a href="login.html"><button class="end">🏠 Exit MemoryVerse</button></a>
+        </div>
+    </div>
+    <footer>Made with ❤️ exclusively for your Birthday • MemoryVerse © 2026</footer>
+</section>
+
+<!-- Scene 3: Recap Montage -->
+<section id="recap-montage" class="scene">
+    <!-- Slides will be injected by JS -->
+</section>
+
+<!-- Scene 3B: Memory Wall -->
+<section id="memory-wall-scene" class="scene">
+    <div class="memory-wall-container">
+        <div id="memory-wall-grid" class="memory-wall-grid">
+            <!-- Photos injected by JS -->
+        </div>
+        <div class="memory-wall-text">
+            Every photograph tells a story. Every story became a memory. Every memory became my favorite.
+            <b>Happy Birthday ❤️</b>
+        </div>
+    </div>
+</section>
+
+<!-- Scene 4: Timeline -->
+<section id="timeline" class="scene">
+    <div class="timeline-container">
+        <!-- Timeline items will be injected by JS -->
+    </div>
+</section>
+
+<!-- Scene 5: Ending Quote -->
+<section id="ending-quote-scene" class="scene">
+    <p class="ending-quote-text line-1">Every ending...</p>
+    <p class="ending-quote-text line-2">is simply another beautiful beginning.</p>
+    <p class="ending-quote-text line-3">Here's to many more birthdays, many more adventures, and countless more memories. ❤️</p>
+</section>
+
+<!-- Scene 6: Grand Finale -->
+<section id="grand-finale-scene" class="scene">
+    <div>
+        <h1 class="grand-finale-text">THE MAN</h1>
+        <h1 class="grand-finale-text">THE MYTH</h1>
+        <h1 class="grand-finale-text">THE LEGEND</h1>
+        <h2 class="grand-finale-text birthday">Happy Birthday ❤️</h2>
+    </div>
+</section>
+
+<!-- Scene 7: Credits -->
+<section id="credits-scene" class="scene">
+    <div>
+        <div class="credit-item" style="animation-delay: 1s;"><h3>Director</h3><p>Life</p></div>
+        <div class="credit-item" style="animation-delay: 2.5s;"><h3>Producer</h3><p>Destiny</p></div>
+        <div class="credit-item" style="animation-delay: 4s;"><h3>Cast</h3><p>The Birthday Boi ⭐</p></div>
+        <div class="credit-item" style="animation-delay: 5.5s;"><h3>Featuring</h3><p>Every Smile, Every Laugh, Every Memory</p></div>
+        <div class="credit-item rating" style="animation-delay: 7.5s;">★★★★★</div>
+        <div class="credit-item thanks" style="animation-delay: 9s;"><p>Thank you for watching.</p></div>
+        <div class="credit-item birthday" style="animation-delay: 11s;"><p>Happy Birthday ❤️</p></div>
+        <div class="restart-button-container" style="animation-delay: 13s;">
+            <button class="replay" onclick="window.location.reload()">↻ Restart Finale</button>
+        </div>
+    </div>
+</section>
+
+<!-- Scene 8: Last Scene -->
+<section id="last-scene" class="scene">
+    <div>
+        <p class="last-scene-text line-1">Roll Credits...</p>
+    </div>
+</section>
+
+<!-- Scene 9: Final Credits -->
+<section id="final-credits-scene" class="scene">
+    <div>
+        <div class="credit-item" style="animation-delay: 1s;"><h3>Director</h3><p>Life</p></div>
+        <div class="credit-item" style="animation-delay: 2.5s;"><h3>Producer</h3><p>Destiny</p></div>
+        <div class="credit-item" style="animation-delay: 4s;"><h3>Cast</h3><p>The Birthday Boi ⭐</p></div>
+        <div class="credit-item" style="animation-delay: 5.5s;"><h3>Featuring</h3><p>Every Smile, Every Laugh, Every Memory</p></div>
+        <div class="credit-item rating" style="animation-delay: 7.5s;">★★★★★</div>
+        <div class="credit-item thanks" style="animation-delay: 9s;"><p>Thank you for watching.</p></div>
+        <div class="credit-item birthday" style="animation-delay: 11s;"><p>Happy Birthday ❤️</p></div>
+    </div>
+</section>
+
+
+<audio id="music" autoplay loop>
+
+<source src="assets/music/background.mp3" type="audio/mpeg">
+
+</audio>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const music = document.getElementById("music");
+    if (music) {
+        music.volume = 0.45;
+        music.play().catch(() => {
+            document.body.addEventListener('click', () => music.play(), { once: true });
+        });
+    }
+
+    // =====================================================
+    // CINEMATIC SCENE MANAGEMENT
+    // =====================================================
+    const scenes = document.querySelectorAll('.scene');
+    let currentSceneIndex = 0;
+
+    function showScene(index) {
+        scenes.forEach((scene, i) => {
+            scene.classList.toggle('active', i === index);
+        });
+    }
+
+    // =====================================================
+    // FULL SEQUENCE TIMELINE
+    // =====================================================
+    async function playSequence() {
+        // --- Scene 1: Opening ---
+        showScene(0);
+        await delay(3000); // Wait for opening title
+
+        // --- Scene 2: Main Content & Letter ---
+        showScene(1);
+        const mainContent = document.querySelector('#main-content .content');
+        mainContent.style.transition = 'opacity 2s';
+        mainContent.style.opacity = 1;
+
+        await delay(2000);
+        await animateLetter();
+        await delay(4000); // Time for user to read and see buttons
+
+        mainContent.style.opacity = 0;
+        await delay(1500);
+
+        // --- Scene 3: Recap Montage ---
+        showScene(2);
+        await playRecapMontage(); // Duration is now 21s instead of 35s
+
+        // --- Scene 3B: Memory Wall ---
+        showScene(3); // New Memory Wall scene
+        await buildMemoryWall();
+        await delay(6000); // Let user see the wall
+        
+        // Start fireworks on this scene
+        setInterval(launchFirework, 1500);
+
+        // --- Scene 4: Timeline ---
+        showScene(4);
+        await playTimeline();
+        await delay(4000);
+
+        // --- Scene 5: Ending Quote ---
+        showScene(5);
+        await delay(9000);
+
+        // --- Scene 6: Grand Finale Text ---
+        showScene(6);
+        await delay(5000);
+
+        // --- Scene 7: Credits ---
+        showScene(7); // Show the credits screen
+        // The sequence now ends with the credits.
+    }
+
+    // =====================================================
+    // HELPER FUNCTIONS FOR SEQUENCES
+    // =====================================================
+    const delay = ms => new Promise(res => setTimeout(res, ms));
+
+    async function animateLetter() {
+        const letter = document.getElementById('letter');
+        const lines = document.querySelectorAll('.letter-line');
+
+        letter.classList.add('unfold');
+        await delay(2000);
+
+        for (const line of lines) {
+            line.style.opacity = 1;
+            await delay(1000); // Staggered reveal of each line
+        }
+        // Reduced wait time is handled in the main sequence
+        letter.classList.remove('unfold');
+        letter.classList.add('fold');
+    }
+
+    async function playRecapMontage() {
+        const montageContainer = document.getElementById('recap-montage');
+        const photos = [
+            { src: 'assets/images/photo1.jpg', caption: 'It all started with a arrogant hello.' },
+            { src: 'assets/images/photo6.jpg', caption: 'The ocean kept our memories and made us friends.' },
+            { src: 'assets/images/photo15.jpg', caption: 'Every meal tasted better together(especially when you cooked).' },
+            { src: 'assets/images/photo10.jpg', caption: 'Five stars weren\'t enough.' },
+            { src: 'assets/images/photo5.jpg', caption: 'The little moments became everything.' },
+            { src: 'assets/images/photo8.jpg', caption: 'Still the cutest person I know.Pookie' },
+            { src: 'assets/images/photo3.jpg', caption: 'The best birthday belongs to the best person.Love You' }
+        ];
+
+        for (let i = 0; i < photos.length; i++) {
+            const slide = document.createElement('div');
+            slide.className = 'recap-slide';
+            slide.innerHTML = `
+                <div class="cinema-frame">
+                    <img src="${photos[i].src}" alt="Memory Recap ${i + 1}">
+                </div>
+                <p class="recap-caption">${photos[i].caption}</p>
+            `;
+            montageContainer.appendChild(slide);
+            slide.classList.add('active');
+            await delay(3000);
+            slide.remove();
+        }
+    }
+
+    async function buildMemoryWall() {
+        const grid = document.getElementById('memory-wall-grid');
+        const allPhotos = [
+            'photo1.jpg', 'photo2.jpg', 'photo3.jpg', 'photo4.jpg', 'photo5.jpg',
+            'photo6.jpg', 'photo7.jpg', 'photo8.jpg', 'photo9.jpg', 'photo10.jpg',
+            'photo11.jpg', 'photo12.jpg', 'photo13.jpg', 'photo14.jpg', 'photo15.jpg',
+            'photo16.jpg', 'photo17.jpg', 'photo18.jpg', 'photo19.jpg', 'photo20.jpg'
+        ];
+
+        // Shuffle for artistic placement
+        allPhotos.sort(() => Math.random() - 0.5);
+
+        allPhotos.forEach((photo, i) => {
+            const polaroid = document.createElement('div');
+            polaroid.className = 'polaroid';
+            
+            const rotation = (Math.random() * 10) - 5; // -5 to +5 degrees
+            polaroid.style.setProperty('--r', `${rotation}deg`);
+            polaroid.style.transform = `rotate(${rotation}deg)`;
+            polaroid.style.animationDelay = `${i * 0.1}s`;
+
+            const img = document.createElement('img');
+            img.src = `assets/images/${photo}`;
+            img.alt = `Memory ${i + 1}`;
+            polaroid.appendChild(img);
+            grid.appendChild(polaroid);
+        });
+    }
+
+    async function playTimeline() {
+        const timelineContainer = document.querySelector('#timeline .timeline-container');
+        const chapters = [
+            { title: 'Happy Birthday', number: 'I' },
+            { title: 'Beach Memories', number: 'II' },
+            { title: 'Lunch Dates', number: 'III' },
+            { title: 'Movie Date', number: 'IV' },
+            { title: 'Random Moments', number: 'V' },
+            { title: 'Your Cuteness', number: 'VI' },
+            { title: 'Birthday Boi', number: 'VII' }
+        ];
+
+        for (let i = 0; i < chapters.length; i++) {
+            const item = document.createElement('div');
+            item.className = 'timeline-item';
+            item.style.animationDelay = `${i * 0.3}s`;
+            item.innerHTML = `
+                ${chapters[i].title}
+                <span>CHAPTER ${chapters[i].number}</span>
+            `;
+            timelineContainer.appendChild(item);
+            await delay(300);
+        }
+    }
+
+    // Start the entire cinematic experience
+    playSequence();
+
+    // =====================================================
+    // CANVAS BACKGROUND EFFECTS
+    // =====================================================
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+
+    function createParticle(x, y, isFirework = false) {
+        const size = isFirework ? Math.random() * 2 + 1 : Math.random() * 1.5 + 0.5;
+        const speedX = (Math.random() - 0.5) * (isFirework ? 4 : 0.5);
+        const speedY = isFirework ? (Math.random() - 0.5) * 4 : Math.random() * -1 - 0.2;
+        const life = isFirework ? Math.random() * 30 + 60 : Math.random() * 100 + 180;
+        const color = isFirework ? `hsl(${Math.random() * 50 + 10}, 100%, 70%)` : 'rgba(255, 215, 100, 0.8)';
+
+        return { x, y, size, speedX, speedY, life, initialLife: life, color };
+    }
+
+    function launchFirework() {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * (canvas.height / 2);
+        for (let i = 0; i < 50; i++) {
+            particles.push(createParticle(x, y, true));
+        }
+    }
+
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((p, index) => {
+            p.x += p.speedX;
+            p.y += p.speedY;
+            p.life--;
+
+            if (p.life <= 0) {
+                particles.splice(index, 1);
+            } else {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.life / p.initialLife;
+                ctx.fill();
+                ctx.closePath();
+            }
+        });
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(animateParticles);
+    }
+
+    // Generate initial stars/particles
+    for (let i = 0; i < 150; i++) {
+        particles.push(createParticle(Math.random() * canvas.width, Math.random() * canvas.height));
+    }
+
+    // setInterval(launchFirework, 5000); // Fireworks are now on the memory wall
+    animateParticles();
+
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+});
+
+</script>
+
+</body>
+
+</html>

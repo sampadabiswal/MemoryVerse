@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MemoryVerse | Chapter 4 - Movie Date</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* =====================================================
+   GENERAL & RESET
+=====================================================*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    overflow-x: hidden;
+    background: #fde5e5;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* =====================================================
+   ANIMATED BACKGROUND & ATMOSPHERE
+=====================================================*/
+#garden {
+    position: fixed;
+    inset: 0;
+    z-index: -20;
+    background: linear-gradient(to bottom, #fbc2eb 0%, #a6c1ee 100%);
+    overflow: hidden;
+}
+
+#sunlight {
+    position: fixed;
+    top: -10%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255, 248, 220, 0.6), transparent 70%);
+    filter: blur(50px);
+    animation: sunMove 15s ease-in-out infinite alternate;
+}
+
+@keyframes sunMove {
+    to { transform: translate(100px, 50px); }
+}
+
+#petals, #butterflies {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+}
+
+.petal {
+    position: absolute;
+    background: #ffc0cb;
+    width: 12px;
+    height: 18px;
+    border-radius: 0 50% 0 50%;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.butterfly {
+    position: absolute;
+    font-size: 24px;
+    animation: fly linear infinite;
+    opacity: 0.8;
+}
+
+@keyframes fly {
+    0% { transform: translateX(-100px) translateY(0) rotate(0deg); }
+    50% { transform: translateX(calc(50vw + 50px)) translateY(-40px) rotate(20deg); }
+    100% { transform: translateX(calc(100vw + 100px)) translateY(20px) rotate(-10deg); }
+}
+
+/* =====================================================
+   INTRO SCREEN
+=====================================================*/
+#intro {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    z-index: 999;
+    animation: introFade 5s forwards;
+    text-align: center;
+}
+
+@keyframes introFade {
+    0%, 80% { opacity: 1; visibility: visible; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+.intro-content h3 { font-size: 18px; letter-spacing: 8px; color: #f472b6; margin-bottom: 20px; }
+.intro-content h1 { font-size: 90px; margin-bottom: 20px; color: #fff; text-shadow: 0 0 25px #f472b6; }
+.intro-content h2 { font-size: 42px; margin-bottom: 20px; color: #fff; }
+.intro-content p { font-size: 22px; color: #eee; }
+
+/* =====================================================
+   MAIN CONTENT
+=====================================================*/
+#chapter {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 120px 20px 180px;
+    text-align: center;
+    opacity: 0;
+    animation: showPage 1s forwards 4.5s;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes showPage {
+    to { opacity: 1; }
+}
+
+.chapter-number { font-size: 18px; letter-spacing: 6px; color: #c026d3; }
+.chapter-heading { font-size: 62px; margin: 20px 0 10px; color: #252525; animation: titleGlow 4s infinite alternate; }
+.subtitle { font-size: 22px; color: #555; margin-bottom: 40px; }
+
+@keyframes titleGlow {
+    from { text-shadow: 0 0 10px rgba(244, 114, 182, 0.5); }
+    to { text-shadow: 0 0 20px rgba(244, 114, 182, 0.8), 0 0 40px rgba(219, 39, 119, 0.5); }
+}
+
+/* =====================================================
+   CINEMA FRAME & SLIDESHOW
+=====================================================*/
+.cinema-frame {
+    width: 90%;
+    max-width: 1100px;
+    height: 650px;
+    margin: auto;
+    background: #000;
+    padding: 18px;
+    border-radius: 25px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cinema-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 25px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.08), transparent 25%, transparent 70%, rgba(0, 0, 0, 0.3));
+    z-index: 3;
+    pointer-events: none;
+}
+
+.cinema-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 12px;
+    transition: opacity 0.8s ease-in-out;
+    animation: kenburns 12s ease-in-out infinite alternate;
+}
+
+@keyframes kenburns {
+    from { transform: scale(1); }
+    to { transform: scale(1.08); }
+}
+
+/* =====================================================
+   CAPTION & STORY
+=====================================================*/
+#captionBox { margin-top: 35px; min-height: 30px; text-align: center; }
+#caption { font-size: 28px; font-style: italic; color: #c026d3; border-right: 3px solid transparent; white-space: nowrap; overflow: hidden; }
+
+.story-box {
+    width: 900px;
+    max-width: 92%;
+    margin: 45px auto 0;
+    padding: 35px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    line-height: 2;
+    font-size: 21px;
+    color: #333;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    transition: opacity 1s, transform 1s;
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+/* =====================================================
+   NAVIGATION BUTTONS
+=====================================================*/
+.buttons {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(255, 229, 229, 0.7), transparent);
+    z-index: 100;
+}
+
+.buttons button {
+    padding: 16px 40px;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.primary { background: #db2777; color: #fff; }
+.secondary { background: white; color: #111; }
+
+.buttons button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 0 25px #db2777;
+}
+.secondary:hover { box-shadow: 0 0 25px white; }
+
+.ripple { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.7); transform: scale(0); animation: ripple 0.6s linear; pointer-events: none; }
+@keyframes ripple { to { transform: scale(4); opacity: 0; } }
+
+.progress { margin-top: 45px; text-align: center; font-size: 18px; letter-spacing: 2px; color: #555; }
+
+/* =====================================================
+   RESPONSIVE
+=====================================================*/
+@media (max-width: 992px) {
+    .chapter-heading { font-size: 52px; }
+    .cinema-frame { height: 500px; }
+    .story-box { font-size: 18px; }
+}
+
+@media (max-width: 768px) {
+    #chapter { padding-top: 80px; padding-bottom: 220px; }
+    .chapter-heading { font-size: 42px; }
+    .subtitle { font-size: 18px; }
+    .cinema-frame { height: 350px; padding: 10px; }
+    #caption { font-size: 20px; }
+    .story-box { padding: 25px; font-size: 16px; }
+    .buttons { flex-direction: column; align-items: center; gap: 15px; background: linear-gradient(to top, rgba(255, 229, 229, 0.85), transparent); padding: 15px 0; }
+    .buttons a { width: 90%; max-width: 300px; }
+    .buttons button { width: 100%; }
+}
+
+@media (max-width: 480px) {
+    .intro-content h1 { font-size: 60px; }
+    .intro-content h2 { font-size: 30px; }
+    .chapter-heading { font-size: 34px; }
+    .cinema-frame { height: 250px; }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ================================================= -->
+<!-- Background Layers -->
+<!-- ================================================= -->
+<div id="garden">
+    <div id="sunlight"></div>
+    <div id="petals"></div>
+    <div id="butterflies"></div>
+</div>
+
+<!-- ================================================= -->
+<!-- Intro -->
+<!-- ================================================= -->
+<section id="intro">
+    <div class="intro-content">
+        <h3>MEMORYVERSE PRESENTS</h3>
+        <h1>CHAPTER IV</h1>
+        <h2>🎬 Movie Date</h2>
+        <p>Some memories don't need reviews.</p>
+    </div>
+</section>
+
+<!-- ================================================= -->
+<!-- Main Chapter -->
+<!-- ================================================= -->
+<section id="chapter">
+
+    <div class="chapter-number">CHAPTER IV</div>
+    <h1 class="chapter-heading">🎬 Movie Date</h1>
+    <p class="subtitle">The best blockbusters are the ones we watch together.</p>
+
+    <!-- Cinema Frame -->
+    <div class="cinema-frame">
+        <img id="slide" src="assets/images/photo10.jpg" alt="Blooming Memory">
+    </div>
+
+    <!-- Caption -->
+    <div id="captionBox">
+        <p id="caption">No comments on this 😂</p>
+    </div>
+
+    <!-- Story Card -->
+    <div class="story-box">
+        <p>No comments on this 😂.
+            <br><br>
+            But it was the best, I will say. ❤️</p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="buttons">
+        <a href="chapter3.html">
+            <button class="secondary">⬅ Previous</button>
+        </a>
+        <a href="home.html">
+            <button class="secondary">🏠 Home</button>
+        </a>
+        <a href="chapter5.html">
+            <button class="primary">Next Chapter ➜</button>
+        </a>
+    </div>
+
+    <div class="progress">Chapter 4 / 7</div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- Background Music -->
+<!-- ================================================= -->
+<audio id="music" loop autoplay>
+    <source src="assets/music/background.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ================================================= -->
+<!-- JavaScript -->
+<!-- ================================================= -->
+<script>
+    // Slideshow content
+    const images = [
+        "assets/images/photo10.jpg",
+        "assets/images/photo12.jpg",
+        "assets/images/photo18.jpg"
+    ];
+
+    const captions = [
+        "No comments on this 😂",
+        "But it was the best.",
+        "Some memories don't need reviews."
+    ];
+</script>
+
+<script>
+/* =====================================================
+   CHAPTER 4 JAVASCRIPT
+=====================================================*/
+document.addEventListener('DOMContentLoaded', () => {
+
+    /* ==========================================
+        PHOTO SLIDESHOW & TYPEWRITER
+    ========================================== */
+    const slide = document.getElementById("slide");
+    const caption = document.getElementById("caption");
+    let current = 0;
+    let typeInterval;
+
+    function typeWriter(text) {
+        let i = 0;
+        caption.innerHTML = "";
+        caption.style.width = '0';
+        caption.style.borderRight = '3px solid #c026d3';
+
+        if (typeInterval) clearInterval(typeInterval);
+
+        typeInterval = setInterval(() => {
+            if (i < text.length) {
+                caption.innerHTML += text.charAt(i);
+                i++;
+            } else {
+                clearInterval(typeInterval);
+                caption.style.borderRight = '3px solid transparent';
+            }
+        }, 50);
+    }
+
+    function changeSlide() {
+        current = (current + 1) % images.length;
+        slide.style.opacity = "0";
+
+        setTimeout(() => {
+            slide.src = images[current];
+            slide.style.opacity = "1";
+            typeWriter(captions[current]);
+        }, 800);
+    }
+
+    typeWriter(captions[0]);
+    setInterval(changeSlide, 5000);
+
+    /* ==========================================
+        DYNAMIC BACKGROUND ELEMENTS
+    ========================================== */
+    const petalsContainer = document.getElementById("petals");
+    const butterfliesContainer = document.getElementById("butterflies");
+
+    function createPetal() {
+        const petal = document.createElement("div");
+        petal.className = "petal";
+        petal.style.left = Math.random() * 100 + "vw";
+        petal.style.animationDuration = (5 + Math.random() * 5) + "s";
+        petal.style.opacity = Math.random();
+        petal.style.transform = `scale(${0.5 + Math.random() * 0.5}) rotate(${Math.random() * 360}deg)`;
+        petalsContainer.appendChild(petal);
+        setTimeout(() => petal.remove(), 10000);
+    }
+
+    function createButterfly() {
+        const butterfly = document.createElement("div");
+        butterfly.className = "butterfly";
+        butterfly.innerHTML = "🦋";
+        butterfly.style.top = (20 + Math.random() * 50) + "%";
+        butterfly.style.animationDuration = (15 + Math.random() * 10) + "s";
+        butterfliesContainer.appendChild(butterfly);
+        setTimeout(() => butterfly.remove(), 25000);
+    }
+
+    setInterval(createPetal, 400);
+    setInterval(createButterfly, 8000);
+
+    /* ==========================================
+        MUSIC
+    ========================================== */
+    const music = document.getElementById("music");
+    if (music) {
+        music.volume = 0.35;
+        music.play().catch(() => {
+            document.body.addEventListener("click", () => music.play(), { once: true });
+        });
+    }
+
+    /* ==========================================
+        STORY CARD FADE-IN ON SCROLL
+    ========================================== */
+    const storyBox = document.querySelector(".story-box");
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                storyBox.style.opacity = "1";
+                storyBox.style.transform = "translateY(0)";
+                observer.unobserve(storyBox);
+            }
+        });
+    }, { threshold: 0.2 });
+    observer.observe(storyBox);
+
+    /* ==========================================
+        BUTTON RIPPLE EFFECT
+    ========================================== */
+    document.querySelectorAll(".buttons button").forEach(button => {
+        button.addEventListener("click", function (e) {
+            const rect = e.target.getBoundingClientRect();
+            const circle = document.createElement("span");
+            const diameter = Math.max(rect.width, rect.height);
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${e.clientX - rect.left - diameter / 2}px`;
+            circle.style.top = `${e.clientY - rect.top - diameter / 2}px`;
+            circle.classList.add("ripple");
+            this.appendChild(circle);
+            setTimeout(() => circle.remove(), 600);
+        });
+    });
+
+}); // End DOMContentLoaded
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MemoryVerse Login</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:'Poppins',sans-serif;
+
+height:100vh;
+
+overflow:hidden;
+
+background:
+radial-gradient(circle at top,#2b1055,#090314 70%);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+color:white;
+
+}
+
+/* Galaxy */
+
+#stars{
+
+position:fixed;
+
+width:100%;
+
+height:100%;
+
+top:0;
+
+left:0;
+
+overflow:hidden;
+
+z-index:-2;
+
+}
+
+.star{
+
+position:absolute;
+
+background:white;
+
+border-radius:50%;
+
+animation:twinkle infinite alternate;
+
+}
+
+@keyframes twinkle{
+
+from{
+
+opacity:.2;
+
+transform:scale(.5);
+
+}
+
+to{
+
+opacity:1;
+
+transform:scale(1.4);
+
+}
+
+}
+
+/* Card */
+
+.login-card{
+
+width:420px;
+
+padding:45px;
+
+background:rgba(255,255,255,.08);
+
+backdrop-filter:blur(15px);
+
+border-radius:25px;
+
+text-align:center;
+
+box-shadow:
+
+0 0 40px rgba(0,255,255,.2);
+
+}
+
+.logo{
+
+font-size:48px;
+
+font-weight:800;
+
+margin-bottom:10px;
+
+text-shadow:
+
+0 0 15px cyan,
+
+0 0 35px #8c52ff;
+
+}
+
+.subtitle{
+
+margin-bottom:35px;
+
+color:#ddd;
+
+line-height:1.6;
+
+}
+
+input{
+
+width:100%;
+
+padding:16px;
+
+border:none;
+
+border-radius:12px;
+
+margin-bottom:20px;
+
+font-size:18px;
+
+outline:none;
+
+}
+
+.password-box{
+
+position:relative;
+
+}
+
+#toggle{
+
+position:absolute;
+
+right:15px;
+
+top:17px;
+
+cursor:pointer;
+
+color:#444;
+
+font-size:14px;
+
+}
+
+button{
+
+width:100%;
+
+padding:16px;
+
+border:none;
+
+border-radius:40px;
+
+background:white;
+
+font-size:18px;
+
+font-weight:600;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+button:hover{
+
+transform:scale(1.05);
+
+box-shadow:0 0 20px white;
+
+}
+
+#error{
+
+margin-top:20px;
+
+color:#ff6b6b;
+
+display:none;
+
+font-weight:600;
+
+}
+
+.shake{
+
+animation:shake .4s;
+
+}
+
+@keyframes shake{
+
+0%{transform:translateX(0);}
+
+25%{transform:translateX(-10px);}
+
+50%{transform:translateX(10px);}
+
+75%{transform:translateX(-10px);}
+
+100%{transform:translateX(0);}
+
+}
+
+.success{
+
+color:#7CFC00;
+
+margin-top:20px;
+
+font-weight:bold;
+
+display:none;
+
+}
+
+.footer{
+
+margin-top:25px;
+
+font-size:13px;
+
+color:#bbb;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="stars"></div>
+
+<div class="login-card" id="card">
+
+<div class="logo">
+
+🌌 MemoryVerse
+
+</div>
+
+<div class="subtitle">
+
+Welcome to your universe of unforgettable memories.<br>
+
+Only someone special can unlock this journey. ❤️
+
+</div>
+
+<div class="password-box">
+
+<input
+
+type="password"
+
+id="password"
+
+placeholder="Enter Password">
+
+<span id="toggle">
+
+👁
+
+</span>
+
+</div>
+
+<button onclick="login()">
+
+Unlock MemoryVerse
+
+</button>
+
+<div id="error">
+
+❌ Incorrect Password
+
+</div>
+
+<div class="success" id="success">
+
+❤️ Welcome... Opening MemoryVerse...
+
+</div>
+
+<div class="footer">
+
+Made with ❤️ especially for you
+
+</div>
+
+</div>
+
+<audio id="unlockSound">
+
+<source src="assets/music/birthday.mp3" type="audio/mpeg">
+
+</audio>
+
+<script>
+
+// Galaxy
+
+const stars=document.getElementById("stars");
+
+for(let i=0;i<350;i++){
+
+const s=document.createElement("div");
+
+s.className="star";
+
+const size=Math.random()*3+1;
+
+s.style.width=size+"px";
+
+s.style.height=size+"px";
+
+s.style.left=Math.random()*100+"%";
+
+s.style.top=Math.random()*100+"%";
+
+s.style.animationDuration=(2+Math.random()*5)+"s";
+
+stars.appendChild(s);
+
+}
+
+// Password
+
+const correctPassword="Choro";
+
+function login(){
+
+const pass=document.getElementById("password").value;
+
+const error=document.getElementById("error");
+
+const success=document.getElementById("success");
+
+const card=document.getElementById("card");
+
+if(pass===correctPassword){
+
+error.style.display="none";
+
+success.style.display="block";
+
+const music=document.getElementById("unlockSound");
+
+music.play().catch(()=>{});
+
+setTimeout(()=>{
+
+window.location.href="index.html";
+
+},2500);
+
+}else{
+
+error.style.display="block";
+
+card.classList.add("shake");
+
+setTimeout(()=>{
+
+card.classList.remove("shake");
+
+},500);
+
+}
+
+}
+
+// Show Password
+
+document.getElementById("toggle").onclick=function(){
+
+const p=document.getElementById("password");
+
+if(p.type==="password"){
+
+p.type="text";
+
+this.innerHTML="🙈";
+
+}else{
+
+p.type="password";
+
+this.innerHTML="👁";
+
+}
+
+};
+
+// Enter Key
+
+document.getElementById("password").addEventListener("keypress",function(e){
+
+if(e.key==="Enter"){
+
+login();
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>

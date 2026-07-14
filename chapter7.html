@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MemoryVerse | Chapter 7 - Birthday Boi</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+    font-family:'Poppins',sans-serif;
+    background:#030712;
+    color:white;
+    overflow-x:hidden;
+}
+
+a { text-decoration: none; }
+
+/* Background */
+#galaxy {
+    position: fixed;
+    inset: 0;
+    z-index: -20;
+    background: radial-gradient(circle at top, #213A5B 0%, #111827 35%, #030712 100%);
+}
+
+#particles, #fireworks-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #FFD700;
+    box-shadow: 0 0 10px gold, 0 0 20px orange;
+    animation: particleFloat linear forwards;
+}
+
+@keyframes particleFloat {
+    from { opacity: 0; transform: translateY(0) scale(0.3); }
+    20% { opacity: 1; }
+    to { opacity: 0; transform: translateY(-250px) scale(1.5); }
+}
+
+.firework {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: gold;
+    border-radius: 50%;
+    opacity: 1;
+    animation: firework-explode 1.2s ease-out forwards;
+}
+
+@keyframes firework-explode {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(30); opacity: 0; }
+}
+
+/* Intro Screen */
+#intro {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    z-index: 999;
+    animation: introFade 5s forwards;
+    text-align: center;
+}
+
+@keyframes introFade {
+    0%, 80% { opacity: 1; visibility: visible; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+.intro-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.intro-content h1 {
+    font-size: 70px;
+    letter-spacing: 15px;
+    color: #FFD700;
+    text-shadow: 0 0 25px gold;
+    opacity: 0;
+    animation: fadeInText 1.5s forwards;
+}
+
+.intro-content h1:nth-child(1) { animation-delay: 0.5s; }
+.intro-content h1:nth-child(2) { animation-delay: 1.5s; }
+.intro-content h1:nth-child(3) { animation-delay: 2.5s; }
+
+@keyframes fadeInText {
+    to { opacity: 1; }
+}
+
+/* Main Content */
+#chapter {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 120px 20px 180px;
+    text-align: center;
+    opacity: 0;
+    animation: showPage 1s forwards 4.5s;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes showPage {
+    to { opacity: 1; }
+}
+
+.chapter-number { font-size: 18px; letter-spacing: 6px; color: #FFD700; }
+.chapter-heading {
+    font-size: 72px;
+    color: #FFD700;
+    text-shadow: 0 0 15px gold, 0 0 30px orange;
+    margin: 20px 0;
+}
+
+/* Spotlight */
+#chapter::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.15), transparent 70%);
+    transform: translate(-50%, -50%);
+    filter: blur(50px);
+    z-index: -1;
+    animation: spotlightGlow 8s infinite alternate;
+}
+
+@keyframes spotlightGlow {
+    from { opacity: 0.7; transform: translate(-50%, -50%) scale(0.9); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* Slider */
+.slider {
+    width: 90%;
+    max-width: 500px;
+    height: 620px;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
+    margin-bottom: 40px;
+    border: 3px solid gold;
+    padding: 10px;
+    background: #000;
+}
+
+.slider img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: opacity 0.8s ease-in-out;
+}
+
+/* Story Box */
+.story-box {
+    width: 900px;
+    max-width: 92%;
+    padding: 35px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 20px;
+    line-height: 2;
+    font-size: 22px;
+    color: #eee;
+    box-shadow: 0 0 35px rgba(255, 255, 255, 0.08);
+}
+
+.story-box b {
+    color: #FFD700;
+    font-size: 24px;
+    display: block;
+    margin-top: 20px;
+}
+
+/* Navigation */
+.buttons {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    z-index: 100;
+}
+
+.buttons button {
+    padding: 16px 40px;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.35s ease;
+}
+
+.primary { background: #FFD700; color: #111; }
+.secondary { background: white; color: #111; }
+
+.buttons button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 0 25px gold;
+}
+.secondary:hover { box-shadow: 0 0 25px white; }
+
+.progress {
+    margin-top: 45px;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: #bbb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #chapter { padding-bottom: 220px; }
+    .chapter-heading { font-size: 52px; }
+    .slider { height: 500px; max-width: 400px; }
+    .story-box { font-size: 18px; }
+    .buttons { flex-direction: column; align-items: center; gap: 15px; }
+    .buttons a { width: 90%; max-width: 300px; }
+    .buttons button { width: 100%; }
+}
+
+@media (max-width: 480px) {
+    .intro-content h1 { font-size: 42px; }
+    .chapter-heading { font-size: 40px; }
+    .slider { height: 450px; }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="galaxy"></div>
+<div id="particles"></div>
+<div id="fireworks-container"></div>
+
+<section id="intro">
+    <div class="intro-content">
+        <h1>THE MAN</h1>
+        <h1>THE MYTH</h1>
+        <h1>THE LEGEND</h1>
+    </div>
+</section>
+
+<section id="chapter">
+    <div class="chapter-number">CHAPTER VII</div>
+    <h1 class="chapter-heading">🎂 Birthday Boi</h1>
+
+    <div class="slider">
+        <img id="slide" src="assets/images/photo3.jpg" alt="Birthday Memory">
+    </div>
+
+    <div class="story-box">
+        <p>
+            To the man of the hour.
+            <br><br>
+            Another year of you being you—and another year of me being the luckiest person in the world.
+            <b>Happy Birthday ❤️</b>
+        </p>
+    </div>
+
+    <div class="buttons">
+        <a href="chapter6.html">
+            <button class="secondary">⬅ Previous</button>
+        </a>
+        <a href="finale.html">
+            <button class="primary">🎆 Grand Finale</button>
+        </a>
+    </div>
+
+    <div class="progress">Chapter 7 / 7</div>
+</section>
+
+<audio id="music" autoplay loop>
+
+<source src="assets/music/background.mp3" type="audio/mpeg">
+
+</audio>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', () => {
+    const images = [
+        "assets/images/photo3.jpg",
+        "assets/images/photo4.jpg",
+        "assets/images/photo11.jpg",
+        "assets/images/photo17.jpg"
+    ];
+
+    let current = 0;
+    const slide = document.getElementById("slide");
+
+    function changeSlide() {
+        current = (current + 1) % images.length;
+        slide.style.opacity = 0;
+        setTimeout(() => {
+            slide.src = images[current];
+            slide.style.opacity = 1;
+        }, 800);
+    }
+
+    setInterval(changeSlide, 4000);
+
+    // Background Effects
+    const particlesContainer = document.getElementById("particles");
+    const fireworksContainer = document.getElementById("fireworks-container");
+
+    function createParticle() {
+        const p = document.createElement("div");
+        p.className = "particle";
+        p.style.left = Math.random() * 100 + "%";
+        p.style.bottom = "0%";
+        p.style.animationDuration = (5 + Math.random() * 5) + "s";
+        particlesContainer.appendChild(p);
+        setTimeout(() => p.remove(), 10000);
+    }
+
+    function launchFirework() {
+        const firework = document.createElement("div");
+        firework.className = "firework";
+        firework.style.left = (10 + Math.random() * 80) + "%";
+        firework.style.top = (10 + Math.random() * 40) + "%";
+        
+        const hue = Math.random() * 360;
+        firework.style.background = `hsl(${hue}, 100%, 70%)`;
+        firework.style.boxShadow = `0 0 15px hsl(${hue}, 100%, 70%)`;
+
+        fireworksContainer.appendChild(firework);
+        setTimeout(() => firework.remove(), 1200);
+    }
+
+    setInterval(createParticle, 200);
+    setInterval(launchFirework, 2500);
+
+    // Music
+    const music = document.getElementById("music");
+    if (music) {
+        music.volume = 0.35;
+        music.play().catch(() => {
+            document.body.addEventListener("click", () => music.play(), { once: true });
+        });
+    }
+});
+
+</script>
+
+</body>
+
+</html>
